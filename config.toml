@@ -1,0 +1,90 @@
+[theme]
+# Primary color for interactive elements (buttons, sliders, etc.)
+primaryColor = "#FF4B4B"
+
+# Background color of the main page
+backgroundColor = "#FFFFFF"
+
+# Background color of the sidebar and input widgets
+secondaryBackgroundColor = "#F0F2F6"
+
+# Text color
+textColor = "#262730"
+
+# Font family - options: "sans serif", "serif", "monospace"
+font = "sans serif"
+
+[server]
+# Whether to run the server in headless mode (no browser window)
+headless = true
+
+# Port where the server will listen
+port = 8501
+
+# Address to bind the server to
+address = "0.0.0.0"
+
+# Cross-Origin Resource Sharing
+enableCORS = false
+
+# Cross-site request forgery protection
+enableXsrfProtection = false
+
+# Maximum upload size in MB
+maxUploadSize = 200
+
+# Whether to enable websocket compression
+enableWebsocketCompression = false
+
+[browser]
+# Whether to automatically open the browser
+gatherUsageStats = false
+
+# Server address for the browser to connect to
+serverAddress = "localhost"
+
+# Server port for the browser to connect to
+serverPort = 8501
+
+[logger]
+# Level of logging ('error', 'warning', 'info', 'debug')
+level = "info"
+
+# Whether to log messages to the console
+messageFormat = "%(asctime)s %(message)s"
+
+[client]
+# Whether to cache functions marked with @st.cache
+caching = true
+
+# Whether to display error details in the app
+displayErrorDetails = true
+
+# Toolbar mode - "auto", "developer", "viewer", "minimal"
+toolbarMode = "auto"
+
+[runner]
+# Whether to enable fast reruns
+fastReruns = true
+
+# Whether to enforce that cached functions are serializable
+enforceSerializableSessionState = false
+
+[global]
+# Development mode settings
+developmentMode = false
+
+# Whether to suppress deprecation warnings
+suppressDeprecationWarnings = false
+
+# Whether to show warning for potential issues
+showWarningOnDirectExecution = true
+
+# Data theme settings
+dataFrameStartExpanded = true
+dataFrameMaxRows = 100
+dataFrameMaxCols = 20
+
+[deprecation]
+# Whether to show warnings for deprecated features
+showPyplotGlobalUse = false
