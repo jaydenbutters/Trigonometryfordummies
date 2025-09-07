@@ -60,127 +60,6 @@ if page == "Basic Trig Functions":
         if abs(tan_val) < 1000:
             st.write(f"**tan({angle_deg}°):** {tan_val:.4f}")
         else:
-            y_trig = np.tan(x_trig)
-            y_trig[np.abs(y_trig) > 10] = np.nan  # Remove discontinuities
-            ax2.plot(x_trig, y_trig, 'r-', linewidth=2, alpha=0.7, label='tan(x)')
-            x_principal = np.linspace(-np.pi/2 + 0.1, np.pi/2 - 0.1, 100)
-            y_principal = np.tan(x_principal)
-            ax2.plot(x_principal, y_principal, 'r-', linewidth=4, label='Principal branch')
-        
-        ax2.plot(result_rad, input_val, 'ro', markersize=10)
-        ax2.axvline(result_rad, color='red', linestyle='--', alpha=0.7)
-        ax2.axhline(input_val, color='red', linestyle='--', alpha=0.7)
-        ax2.grid(True, alpha=0.3)
-        ax2.legend()
-        ax2.set_title(f'Corresponding {function_type[3:]}(x) function')
-        ax2.set_xlabel('x (radians)')
-        ax2.set_ylabel('y')
-        ax2.set_ylim(-3, 3)
-        
-        # Unit circle representation
-        circle = Circle((0, 0), 1, fill=False, color='black', linewidth=2)
-        ax3.add_patch(circle)
-        
-        if function_type in ["arcsin", "arccos"]:
-            # For arcsin and arccos, show the angle on unit circle
-            angle_for_circle = result_rad if function_type == "arcsin" else result_rad
-            x_circle = np.cos(angle_for_circle)
-            y_circle = np.sin(angle_for_circle)
-            
-            ax3.plot([0, x_circle], [0, y_circle], 'ro-', linewidth=3, markersize=8)
-            ax3.plot([x_circle, x_circle], [0, y_circle], 'b--', linewidth=2, alpha=0.7)
-            ax3.plot([0, x_circle], [0, 0], 'g--', linewidth=2, alpha=0.7)
-            
-            if function_type == "arcsin":
-                ax3.text(0.1, 0.1, f'arcsin({input_val:.2f}) = {result_deg:.1f}°', 
-                        bbox=dict(boxstyle="round,pad=0.3", facecolor="yellow", alpha=0.7))
-            else:
-                ax3.text(0.1, 0.1, f'arccos({input_val:.2f}) = {result_deg:.1f}°', 
-                        bbox=dict(boxstyle="round,pad=0.3", facecolor="yellow", alpha=0.7))
-        else:
-            # For arctan, show the slope
-            ax3.plot([0, 1], [0, input_val], 'ro-', linewidth=3, markersize=8, 
-                    label=f'slope = {input_val:.2f}')
-            ax3.text(0.1, 0.1, f'arctan({input_val:.2f}) = {result_deg:.1f}°', 
-                    bbox=dict(boxstyle="round,pad=0.3", facecolor="yellow", alpha=0.7))
-        
-        ax3.set_xlim(-1.5, 1.5)
-        ax3.set_ylim(-1.5, 1.5)
-        ax3.set_aspect('equal')
-        ax3.grid(True, alpha=0.3)
-        ax3.set_title('Unit Circle Representation')
-        
-        # Comparison table of values
-        ax4.axis('off')
-        
-        if function_type == "arcsin":
-            special_values = [
-                [-1, -90], [-0.866, -60], [-0.707, -45], [-0.5, -30], 
-                [0, 0], [0.5, 30], [0.707, 45], [0.866, 60], [1, 90]
-            ]
-            headers = ['x', 'arcsin(x) (°)']
-        elif function_type == "arccos":
-            special_values = [
-                [-1, 180], [-0.866, 150], [-0.707, 135], [-0.5, 120], 
-                [0, 90], [0.5, 60], [0.707, 45], [0.866, 30], [1, 0]
-            ]
-            headers = ['x', 'arccos(x) (°)']
-        else:
-            special_values = [
-                [-1.732, -60], [-1, -45], [-0.577, -30], [0, 0], 
-                [0.577, 30], [1, 45], [1.732, 60], [2.747, 70]
-            ]
-            headers = ['x', 'arctan(x) (°)']
-        
-        # Create table
-        table_data = []
-        for val, deg in special_values:
-            if abs(val - input_val) < 0.1:
-                table_data.append([f"→ {val:.3f}", f"→ {deg}°"])
-            else:
-                table_data.append([f"{val:.3f}", f"{deg}°"])
-        
-        table = ax4.table(cellText=table_data, colLabels=headers,
-                         cellLoc='center', loc='center',
-                         bbox=[0, 0, 1, 1])
-        table.auto_set_font_size(False)
-        table.set_fontsize(10)
-        table.scale(1, 2)
-        
-        # Highlight current value row
-        for i, (val, deg) in enumerate(special_values):
-            if abs(val - input_val) < 0.1:
-                for j in range(2):
-                    table[(i+1, j)].set_facecolor('#ffcccc')
-        
-        ax4.set_title('Special Values Reference')
-        
-        plt.tight_layout()
-        st.pyplot(fig)
-
-# Footer
-st.markdown("---")
-st.markdown("### 📚 Quick Reference")
-
-col1, col2, col3 = st.columns(3)
-
-with col1:
-    st.markdown("**Basic Identities:**")
-    st.markdown("• sin²θ + cos²θ = 1")
-    st.markdown("• tan θ = sin θ / cos θ")
-    st.markdown("• 1 + tan²θ = sec²θ")
-
-with col2:
-    st.markdown("**Special Angles:**")
-    st.markdown("• sin(30°) = 1/2, cos(30°) = √3/2")
-    st.markdown("• sin(45°) = √2/2, cos(45°) = √2/2")
-    st.markdown("• sin(60°) = √3/2, cos(60°) = 1/2")
-
-with col3:
-    st.markdown("**Unit Circle:**")
-    st.markdown("• (cos θ, sin θ) = point on circle")
-    st.markdown("• Period: 2π radians = 360°")
-    st.markdown("• Quadrants determine sign")
             st.write(f"**tan({angle_deg}°):** undefined")
     
     with col2:
@@ -639,3 +518,124 @@ else:  # Inverse Functions
             y_principal = np.cos(x_principal)
             ax2.plot(x_principal, y_principal, 'g-', linewidth=4, label='Principal branch')
         else:
+            y_trig = np.tan(x_trig)
+            y_trig[np.abs(y_trig) > 10] = np.nan  # Remove discontinuities
+            ax2.plot(x_trig, y_trig, 'r-', linewidth=2, alpha=0.7, label='tan(x)')
+            x_principal = np.linspace(-np.pi/2 + 0.1, np.pi/2 - 0.1, 100)
+            y_principal = np.tan(x_principal)
+            ax2.plot(x_principal, y_principal, 'r-', linewidth=4, label='Principal branch')
+        
+        ax2.plot(result_rad, input_val, 'ro', markersize=10)
+        ax2.axvline(result_rad, color='red', linestyle='--', alpha=0.7)
+        ax2.axhline(input_val, color='red', linestyle='--', alpha=0.7)
+        ax2.grid(True, alpha=0.3)
+        ax2.legend()
+        ax2.set_title(f'Corresponding {function_type[3:]}(x) function')
+        ax2.set_xlabel('x (radians)')
+        ax2.set_ylabel('y')
+        ax2.set_ylim(-3, 3)
+        
+        # Unit circle representation
+        circle = Circle((0, 0), 1, fill=False, color='black', linewidth=2)
+        ax3.add_patch(circle)
+        
+        if function_type in ["arcsin", "arccos"]:
+            # For arcsin and arccos, show the angle on unit circle
+            angle_for_circle = result_rad if function_type == "arcsin" else result_rad
+            x_circle = np.cos(angle_for_circle)
+            y_circle = np.sin(angle_for_circle)
+            
+            ax3.plot([0, x_circle], [0, y_circle], 'ro-', linewidth=3, markersize=8)
+            ax3.plot([x_circle, x_circle], [0, y_circle], 'b--', linewidth=2, alpha=0.7)
+            ax3.plot([0, x_circle], [0, 0], 'g--', linewidth=2, alpha=0.7)
+            
+            if function_type == "arcsin":
+                ax3.text(0.1, 0.1, f'arcsin({input_val:.2f}) = {result_deg:.1f}°', 
+                        bbox=dict(boxstyle="round,pad=0.3", facecolor="yellow", alpha=0.7))
+            else:
+                ax3.text(0.1, 0.1, f'arccos({input_val:.2f}) = {result_deg:.1f}°', 
+                        bbox=dict(boxstyle="round,pad=0.3", facecolor="yellow", alpha=0.7))
+        else:
+            # For arctan, show the slope
+            ax3.plot([0, 1], [0, input_val], 'ro-', linewidth=3, markersize=8, 
+                    label=f'slope = {input_val:.2f}')
+            ax3.text(0.1, 0.1, f'arctan({input_val:.2f}) = {result_deg:.1f}°', 
+                    bbox=dict(boxstyle="round,pad=0.3", facecolor="yellow", alpha=0.7))
+        
+        ax3.set_xlim(-1.5, 1.5)
+        ax3.set_ylim(-1.5, 1.5)
+        ax3.set_aspect('equal')
+        ax3.grid(True, alpha=0.3)
+        ax3.set_title('Unit Circle Representation')
+        
+        # Comparison table of values
+        ax4.axis('off')
+        
+        if function_type == "arcsin":
+            special_values = [
+                [-1, -90], [-0.866, -60], [-0.707, -45], [-0.5, -30], 
+                [0, 0], [0.5, 30], [0.707, 45], [0.866, 60], [1, 90]
+            ]
+            headers = ['x', 'arcsin(x) (°)']
+        elif function_type == "arccos":
+            special_values = [
+                [-1, 180], [-0.866, 150], [-0.707, 135], [-0.5, 120], 
+                [0, 90], [0.5, 60], [0.707, 45], [0.866, 30], [1, 0]
+            ]
+            headers = ['x', 'arccos(x) (°)']
+        else:
+            special_values = [
+                [-1.732, -60], [-1, -45], [-0.577, -30], [0, 0], 
+                [0.577, 30], [1, 45], [1.732, 60], [2.747, 70]
+            ]
+            headers = ['x', 'arctan(x) (°)']
+        
+        # Create table
+        table_data = []
+        for val, deg in special_values:
+            if abs(val - input_val) < 0.1:
+                table_data.append([f"→ {val:.3f}", f"→ {deg}°"])
+            else:
+                table_data.append([f"{val:.3f}", f"{deg}°"])
+        
+        table = ax4.table(cellText=table_data, colLabels=headers,
+                         cellLoc='center', loc='center',
+                         bbox=[0, 0, 1, 1])
+        table.auto_set_font_size(False)
+        table.set_fontsize(10)
+        table.scale(1, 2)
+        
+        # Highlight current value row
+        for i, (val, deg) in enumerate(special_values):
+            if abs(val - input_val) < 0.1:
+                for j in range(2):
+                    table[(i+1, j)].set_facecolor('#ffcccc')
+        
+        ax4.set_title('Special Values Reference')
+        
+        plt.tight_layout()
+        st.pyplot(fig)
+
+# Footer
+st.markdown("---")
+st.markdown("### 📚 Quick Reference")
+
+col1, col2, col3 = st.columns(3)
+
+with col1:
+    st.markdown("**Basic Identities:**")
+    st.markdown("• sin²θ + cos²θ = 1")
+    st.markdown("• tan θ = sin θ / cos θ")
+    st.markdown("• 1 + tan²θ = sec²θ")
+
+with col2:
+    st.markdown("**Special Angles:**")
+    st.markdown("• sin(30°) = 1/2, cos(30°) = √3/2")
+    st.markdown("• sin(45°) = √2/2, cos(45°) = √2/2")
+    st.markdown("• sin(60°) = √3/2, cos(60°) = 1/2")
+
+with col3:
+    st.markdown("**Unit Circle:**")
+    st.markdown("• (cos θ, sin θ) = point on circle")
+    st.markdown("• Period: 2π radians = 360°")
+    st.markdown("• Quadrants determine sign")
